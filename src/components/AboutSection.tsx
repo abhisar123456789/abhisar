@@ -1,14 +1,11 @@
 const AboutSection = () => {
-  return (
-    <section id="about" className="py-24 bg-secondary/30">
+  return <section id="about" className="py-24 bg-secondary/30">
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <h2 className="section-title text-center mb-12">About Me</h2>
           
           <div className="space-y-6 text-foreground/80 text-lg leading-relaxed">
-            <p>
-              My work focuses on transforming complex business workflows into structured product solutions. I lead client discovery calls, translate operational needs into detailed Business Requirements Documents (BRDs), collaborate closely with engineering and QA teams, validate LLM-powered automation outputs, and ensure high product quality through rigorous testing, UAT support, and demos.
-            </p>
+            <p>My work focuses on transforming complex business workflows into structured product solutions. I lead client discovery calls, translate operational needs into detailed Business Requirements Documents (BRDs), collaborate closely with engineering and QA teams, work with LLM-powered automation products, and ensure high product quality through rigorous testing, UAT support, and demos.</p>
             
             <p>
               Beyond execution, I also contribute to product strategy, competitive analysis, and growth, including building outreach strategies for enterprise clients and shaping product positioning through structured market research.
@@ -26,12 +23,12 @@ const AboutSection = () => {
               <div className="card-metric-label">Education</div>
             </div>
             <div className="card-metric">
-              <div className="card-metric-value">B.Tech + Minor</div>
-              <div className="card-metric-label">Degree</div>
+              <div className="card-metric-value">Product</div>
+              <div className="card-metric-label">FOCUS AREA</div>
             </div>
             <div className="card-metric">
-              <div className="card-metric-value">Product</div>
-              <div className="card-metric-label">Focus Area</div>
+              <div className="card-metric-value">AI & Data</div>
+              <div className="card-metric-label">FOCUS AREA</div>
             </div>
             <div className="card-metric">
               <div className="card-metric-value">AI & Data</div>
@@ -40,8 +37,6 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default AboutSection;
