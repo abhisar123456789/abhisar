@@ -37,20 +37,25 @@ const PhotoUploadSlot = ({ type = 'experience', className = '', label, storageKe
     if (!file) return;
 
     setUploading(true);
+    console.log('Uploading to path:', filePath, 'key:', key);
     try {
       const { error } = await supabase.storage
         .from('portfolio-images')
         .upload(filePath, file, { upsert: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Upload error for', filePath, error);
+        throw error;
+      }
 
+      console.log('Upload success:', filePath);
       const { data } = supabase.storage
         .from('portfolio-images')
         .getPublicUrl(filePath);
 
       setImage(`${data.publicUrl}?t=${Date.now()}`);
     } catch (err) {
-      console.error('Upload failed:', err);
+      console.error('Upload failed:', filePath, err);
       // Fallback to local preview
       const reader = new FileReader();
       reader.onloadend = () => setImage(reader.result as string);
