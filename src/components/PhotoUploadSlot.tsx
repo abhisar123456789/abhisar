@@ -13,7 +13,7 @@ const PhotoUploadSlot = ({ type = 'experience', className = '', label, storageKe
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  const key = storageKey || label?.toLowerCase().replace(/\s+/g, '-') || 'default';
+  const key = storageKey || label?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'default';
   const filePath = `${key}.jpg`;
 
   useEffect(() => {
