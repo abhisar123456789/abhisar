@@ -18,10 +18,10 @@ const AboutSection = () => {
 
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            <div className="card-metric">
-              <div className="card-metric-value">IIT Delhi</div>
-              <div className="card-metric-label">Education</div>
-            </div>
+            
+
+
+
             <div className="card-metric">
               <div className="card-metric-value">Product</div>
               <div className="card-metric-label">FOCUS AREA</div>
