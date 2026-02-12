@@ -1,54 +1,83 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Upload, User, Image } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface PhotoUploadSlotProps {
   type?: 'profile' | 'experience' | 'project';
   className?: string;
   label?: string;
+  storageKey?: string;
 }
 
-const PhotoUploadSlot = ({ type = 'experience', className = '', label }: PhotoUploadSlotProps) => {
+const PhotoUploadSlot = ({ type = 'experience', className = '', label, storageKey }: PhotoUploadSlotProps) => {
   const [image, setImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const key = storageKey || label?.toLowerCase().replace(/\s+/g, '-') || 'default';
+  const filePath = `${key}.jpg`;
+
+  useEffect(() => {
+    // Load existing image from storage
+    const { data } = supabase.storage
+      .from('portfolio-images')
+      .getPublicUrl(filePath);
+
+    // Check if file exists by fetching it
+    fetch(data.publicUrl, { method: 'HEAD' })
+      .then(res => {
+        if (res.ok) {
+          setImage(`${data.publicUrl}?t=${Date.now()}`);
+        }
+      })
+      .catch(() => {});
+  }, [filePath]);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const { error } = await supabase.storage
+        .from('portfolio-images')
+        .upload(filePath, file, { upsert: true });
+
+      if (error) throw error;
+
+      const { data } = supabase.storage
+        .from('portfolio-images')
+        .getPublicUrl(filePath);
+
+      setImage(`${data.publicUrl}?t=${Date.now()}`);
+    } catch (err) {
+      console.error('Upload failed:', err);
+      // Fallback to local preview
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
+      reader.onloadend = () => setImage(reader.result as string);
       reader.readAsDataURL(file);
+    } finally {
+      setUploading(false);
     }
   };
 
   const getDefaultSize = () => {
     switch (type) {
-      case 'profile':
-        return 'w-32 h-32 md:w-40 md:h-40';
-      case 'project':
-        return 'w-full aspect-video';
-      default:
-        return 'w-full h-48';
+      case 'profile': return 'w-32 h-32 md:w-40 md:h-40';
+      case 'project': return 'w-full aspect-video';
+      default: return 'w-full h-48';
     }
   };
 
   const getIcon = () => {
     switch (type) {
-      case 'profile':
-        return <User className="w-12 h-12 text-muted-foreground/50" />;
-      default:
-        return <Image className="w-8 h-8 text-muted-foreground/50" />;
+      case 'profile': return <User className="w-12 h-12 text-muted-foreground/50" />;
+      default: return <Image className="w-8 h-8 text-muted-foreground/50" />;
     }
   };
 
   return (
     <label className={`photo-upload-slot cursor-pointer ${getDefaultSize()} ${className} ${type === 'profile' ? 'rounded-full' : ''}`}>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        className="hidden"
-      />
+      <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
       {image ? (
         <img
           src={image}
@@ -59,8 +88,14 @@ const PhotoUploadSlot = ({ type = 'experience', className = '', label }: PhotoUp
         <div className="photo-upload-slot-content flex flex-col items-center gap-2">
           {getIcon()}
           <div className="flex items-center gap-1 text-sm">
-            <Upload className="w-4 h-4" />
-            <span>{label || 'Upload Photo'}</span>
+            {uploading ? (
+              <span>Uploading...</span>
+            ) : (
+              <>
+                <Upload className="w-4 h-4" />
+                <span>{label || 'Upload Photo'}</span>
+              </>
+            )}
           </div>
         </div>
       )}
