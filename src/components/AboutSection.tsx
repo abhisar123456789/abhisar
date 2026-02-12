@@ -22,10 +22,10 @@ const AboutSection = () => {
 
 
 
-            <div className="card-metric">
-              <div className="card-metric-value">Product</div>
-              <div className="card-metric-label">FOCUS AREA</div>
-            </div>
+            
+
+
+
             <div className="card-metric">
               
               <div className="card-metric-label">FOCUS AREA</div>
