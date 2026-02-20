@@ -27,15 +27,15 @@ const HeroSection = () => {
             <div className="flex flex-wrap gap-4 text-sm">
               <a
                 href="tel:+917838304520"
-                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-              >
+                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+
                 <Phone className="w-4 h-4" />
                 +91 7838304520
               </a>
               <a
                 href="mailto:abhisar.abhisar@outlook.com"
-                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-              >
+                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+
                 <Mail className="w-4 h-4" />
                 abhisar.abhisar@outlook.com
               </a>
@@ -43,8 +43,8 @@ const HeroSection = () => {
                 href="https://www.linkedin.com/in/abhisar03"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-              >
+                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+
                 <Linkedin className="w-4 h-4" />
                 LinkedIn
               </a>
@@ -62,10 +62,10 @@ const HeroSection = () => {
                 View Portfolio
               </a>
               <a
-                href="#"
+
                 className="btn-accent"
-                onClick={(e) => e.preventDefault()}
-              >
+                onClick={(e) => e.preventDefault()} href="https://1drv.ms/f/c/2281b3d194781807/IgC26zKjOvdwR5PiI7AtRxqjAbNELvs8GpuXOhpmUVtVxr8?e=RRZO51">
+
                 <Download className="w-4 h-4" />
                 Download Resume
               </a>
@@ -92,8 +92,8 @@ const HeroSection = () => {
           <ArrowDown className="w-5 h-5 text-accent" />
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default HeroSection;
